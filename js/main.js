@@ -169,6 +169,7 @@ function validateType(_evt) {
 }
 
 function validateForm(){
+    var mensajito = document.getElementById("mensaje");
     var name = document.getElementById("name");
     var lastname = document.getElementById("lastname");
     var email = document.getElementById("input-email");
@@ -188,7 +189,7 @@ function validateForm(){
         mensaje(password,textoPassword);
         mensaje(type,textoTipo);
     } else {
-        
+        mensajito.innerHTML = "<br><h3 style='color:green'>¡Formulario completado!</h3>";
     }
     
     /*validateName();
