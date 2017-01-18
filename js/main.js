@@ -13,6 +13,7 @@ function mensaje(campo,texto){
         if(campo.nextSibling.tagName == 'SPAN'){
            campo.nextSibling.innerHTML = texto;
         } else {
+            campo.parentNode.removeChild(campo.nextSibling);
             //Creando la Caja Negra
             var cajaNegra = document.createElement("span");
             //Crear nodo texto
