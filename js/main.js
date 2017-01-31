@@ -1,47 +1,37 @@
-//Todos los campos son obligatorios, excepto los dos últimos.
-//Los campos nombre y apellido sólo deben permitir caracteres de la A-Z
-//Para los campos nombre y apellido la primera letra debe ser mayúscula
-//Validar que el campo email tenga un formato válido. Ej: name@domain.com
-//El campo password debe tener al menos 6 caracteres
-//El campo password no puede ser igual a "password" ó "123456" ó "098754"
-//El valor seleccionado de bicis, debe ser una de las opciones presentadas
-//*NOTA: * Recomendamos que el mensaje se añada con un span ya que los estilos ya están definidos.
-
-function mensaje(campo,texto){
-    console.log(campo.nextSibling);
-    if(campo.nextSibling != null) {
-        if(campo.nextSibling.tagName == 'SPAN'){
-           campo.nextSibling.innerHTML = texto;
-        } else {
-            campo.parentNode.removeChild(campo.nextSibling);
-            //Creando la Caja Negra
-            var cajaNegra = document.createElement("span");
-            //Crear nodo texto
-            var info = document.createTextNode(texto);
-            //Insertar el nodo Texto dentro del nodo Caja Negra
-            cajaNegra.appendChild(info);
-            //Crear padre
-            var padre = campo.parentNode;
-
-            var resultado = padre.appendChild(cajaNegra);
-            return resultado;    
-        }
-    } else { 
-        //Creando la Caja Negra
-        var cajaNegra = document.createElement("span");
-        //Crear nodo texto
-        var info = document.createTextNode(texto);
-        //Insertar el nodo Texto dentro del nodo Caja Negra
-        cajaNegra.appendChild(info);
-        //Crear padre
-        var padre = campo.parentNode;
-
-        var resultado = padre.appendChild(cajaNegra);
-        return resultado;  
-
-    }
+function validateForm(){
+    /*var mensajito = document.getElementById("mensaje");
+    var name = document.getElementById("name");
+    var lastname = document.getElementById("lastname");
+    var email = document.getElementById("input-email");
+    var password = document.getElementById("input-password");
+    var tipo = document.getElementById("select");
     
+    var textoNombre = "Debe ingresar su nombre";
+    var textoApellido = "Debe ingresar su apellido";
+    var textoEmail = "Verifique su e-mail";
+    var textoPassword = "La contraseña debe tener al menos 6 caracteres";
+    var textoTipo = "Debes seleccionar al menos un tipo de bici";
+    
+    if(name.value.length==0 && lastname.value.length==0 && email.value.length==0 && password.value.length==0 && tipo.value==0) {
+        mensaje("name",textoNombre);
+        mensaje("lastname",textoApellido);
+        mensaje("input-email",textoEmail);
+        mensaje("input-password",textoPassword);
+        mensaje("select",textoTipo);
+    } else {
+        if(name.value.length>0 && lastname.value.length>0 && email.value.length>0 && password.value.length>0 && tipo.value!=0){
+            mensajito.innerHTML = "<br><h3 style='color:green'>¡Formulario completado!</h3>";    
+        } else {
+            mensajito.innerHTML = "";
+        }
         
+    }*/
+    
+    validateName();
+    validateLastname();
+    validateEmail();
+    validatePassword();
+    validateType();
 }
 
 
@@ -74,12 +64,12 @@ function validateName(_evt){
         }
         
         if(/([0-9])/g.test(nombre.value)){
-            mensaje(nombre,textoNumero);
+            mensaje("name",textoNumero);
         } else {
-            nombre.parentNode.removeChild(nombre.nextSibling);
+            eliminar("name");
         }
     } else {
-        mensaje(nombre,textoNombre);
+        mensaje("name",textoNombre);
     }    
 }
 
@@ -111,12 +101,12 @@ function validateLastname(_evt) {
         apellido.value = mayuscula;
         }
         if(/([0-9])/g.test(apellido.value)){
-            mensaje(apellido,textoNumero)
+            mensaje("lastname",textoNumero)
         } else {
-            apellido.parentNode.removeChild(apellido.nextSibling);
+            eliminar("lastname");
         }
     } else {
-        mensaje(apellido,textoApellido); 
+        mensaje("lastname",textoApellido); 
     }
 }
 
@@ -128,10 +118,10 @@ function validateEmail(_evt){
     var textoEmail = "Verifique su e-mail";
 
     if(/([a-zA-Z0-9(-_.)]+[@][a-zA-Z0-9]+[.][a-zA-Z]+)/g.test(emailX.value)){
-        emailX.parentNode.removeChild(emailX.nextSibling); 
+        eliminar("input-email"); 
     } else {
         if(emailX.value.length > 0){
-            mensaje(emailX,textoEmail);  
+            mensaje("input-email",textoEmail);  
         }
     }
 }
@@ -144,63 +134,84 @@ function validatePassword(_evt) {
     var textoPassword = "La contraseña debe tener al menos 6 caracteres";
     
     if(/([1-6])/g.test(password.value) || (/([9]+[8]+[7]+[5]+[4])/g.test(password.value)) || password.value.length < 6) {
-        mensaje(password,textoPassword); 
+        mensaje("input-password",textoPassword); 
         
     } else {
-        password.parentNode.removeChild(password.nextSibling);  
-       
+        eliminar("input-password");
     }
 }
 
 function validateType(_evt) {
     
     //Input
-    var tipo = document.querySelector("select");
+    var tipo = document.getElementById("select");
     //Creando el texto de la Caja Negra
     var textoTipo = "Debes seleccionar al menos un tipo de bici";
     
     if(tipo.value == 0){
-          mensaje(tipo,textoTipo);
+          mensaje("select",textoTipo);
     } else { 
         if(tipo.value == "urbana" || tipo.value == "treking" || tipo.value == "electrica" || tipo.value == "estatica"){
-           tipo.parentNode.removeChild(tipo.nextSibling); 
+           eliminar("select");
         }
           
     }   
 }
 
-function validateForm(){
-    var mensajito = document.getElementById("mensaje");
-    var name = document.getElementById("name");
-    var lastname = document.getElementById("lastname");
-    var email = document.getElementById("input-email");
-    var password = document.getElementById("input-password");
-    var type = document.querySelector("select");
+
+function mensaje(campo,texto){
+
+    var elemento = document.getElementById(campo);
     
-    var textoNombre = "Debe ingresar su nombre";
-    var textoApellido = "Debe ingresar su apellido";
-    var textoEmail = "Verifique su e-mail";
-    var textoPassword = "La contraseña debe tener al menos 6 caracteres";
-    var textoTipo = "Debes seleccionar al menos un tipo de bici";
-    
-    if(name.value.length==0 && lastname.value.length==0 && email.value.length==0 && password.value.length==0 && type.value==0) {
-        mensaje(name,textoNombre);
-        mensaje(lastname,textoApellido);
-        mensaje(email,textoEmail);
-        mensaje(password,textoPassword);
-        mensaje(type,textoTipo);
-    } else {
-        if(name.value.length>0 && lastname.value.length>0 && email.value.length>0 && password.value.length>0 && type.value!=0){
-            mensajito.innerHTML = "<br><h3 style='color:green'>¡Formulario completado!</h3>";    
-        } else {
-            mensajito.innerHTML = "";
-        }
+    //El span no existe
+    if(elemento.nextSibling == null) {
         
+        //Creando la Caja Negra
+        var cajaNegra = document.createElement("span");
+        var info = document.createTextNode(texto);
+        cajaNegra.appendChild(info);
+        var padre = elemento.parentNode;
+        padre.appendChild(cajaNegra);  
+     
+    //El span si existe    
+    } else { 
+        
+        if(elemento.nextSibling.tagName == 'SPAN'){
+           
+            elemento.nextSibling.innerHTML = texto;
+            
+        } else {
+            
+           elemento.parentNode.removeChild(elemento.nextSibling); 
+            
+            //Creando la Caja Negra
+            var cajaNegra = document.createElement("span");
+            var info = document.createTextNode(texto);
+            cajaNegra.appendChild(info);
+            var padre = elemento.parentNode;
+            padre.appendChild(cajaNegra);
+        }        
+    }
+}
+
+function eliminar(campo){
+    
+    var elemento = document.getElementById(campo);
+    
+    if(elemento.nextSibling != null) {
+        
+        elemento.parentNode.removeChild(elemento.nextSibling);
     }
     
-    /*validateName();
-    validateLastname();
-    validateEmail();
-    validatePassword();
-    validateType();*/
 }
+
+//Todos los campos son obligatorios, excepto los dos últimos.
+//Los campos nombre y apellido sólo deben permitir caracteres de la A-Z
+//Para los campos nombre y apellido la primera letra debe ser mayúscula
+//Validar que el campo email tenga un formato válido. Ej: name@domain.com
+//El campo password debe tener al menos 6 caracteres
+//El campo password no puede ser igual a "password" ó "123456" ó "098754"
+//El valor seleccionado de bicis, debe ser una de las opciones presentadas
+//*NOTA: * Recomendamos que el mensaje se añada con un span ya que los estilos ya están definidos. 
+
+
