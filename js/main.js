@@ -39,23 +39,8 @@ function validateName(_evt){
  
     
     if(nombre.value!=""){
-        //MAYUSCULA
-        var nombreArray = nombre.value.split("");
-        var primeraLetra = nombreArray[0];
-        var mayuscula = primeraLetra.toUpperCase();
-        var espacio = false;
-        
-        for(var i=1; i<nombreArray.length; i++) {
-            if(espacio){
-                mayuscula += nombreArray[i].toUpperCase();
-                espacio = false;
-            } else {
-                mayuscula += nombreArray[i];
-                if(nombreArray[i] == " ")
-                    espacio = true;
-            }
-        nombre.value = mayuscula;
-        }
+       
+        nombre.value = convertirMayus(nombre.value);
         
         if(/([0-9])/g.test(nombre.value)){
             mensaje("name",textoNumero);
@@ -77,30 +62,16 @@ function validateLastname(_evt) {
     
  
     if(apellido.value!=""){
-        //MAYUSCULA
-        var nombreArray = apellido.value.split("");
-        var primeraLetra = nombreArray[0];
-        var mayuscula = primeraLetra.toUpperCase();
-        var espacio = false;
-
-        for(var i=1; i<nombreArray.length; i++) {
-            if(espacio){
-                mayuscula += nombreArray[i].toUpperCase();
-                espacio = false;
-            } else {
-                mayuscula += nombreArray[i];
-                if(nombreArray[i] == " ")
-                    espacio = true;
-            }
-        apellido.value = mayuscula;
-        }
+        
+        apellido.value = convertirMayus(apellido.value);
+        
         if(/([0-9])/g.test(apellido.value)){
-            mensaje("lastname",textoNumero)
+            mensaje("lastname",textoNumero)  
         } else {
             eliminar("lastname");
-        }
+        } 
     } else {
-        mensaje("lastname",textoApellido); 
+        mensaje("lastname",textoApellido);    
     }
 }
 
@@ -158,31 +129,16 @@ function mensaje(campo,texto){
     
     //El span no existe
     if(elemento.nextSibling == null) {
-        
-        //Creando la Caja Negra
-        var cajaNegra = document.createElement("span");
-        var info = document.createTextNode(texto);
-        cajaNegra.appendChild(info);
-        var padre = elemento.parentNode;
-        padre.appendChild(cajaNegra);  
-     
+        crearSpan(elemento,texto);
     //El span si existe    
     } else { 
         
         if(elemento.nextSibling.tagName == 'SPAN'){
-           
             elemento.nextSibling.innerHTML = texto;
             
         } else {
-            
-           elemento.parentNode.removeChild(elemento.nextSibling); 
-            
-            //Creando la Caja Negra
-            var cajaNegra = document.createElement("span");
-            var info = document.createTextNode(texto);
-            cajaNegra.appendChild(info);
-            var padre = elemento.parentNode;
-            padre.appendChild(cajaNegra);
+            elemento.parentNode.removeChild(elemento.nextSibling); 
+            crearSpan(elemento,texto);
         }        
     }
 }
@@ -198,4 +154,35 @@ function eliminar(campo){
     
 }
 
+function convertirMayus(texto){
+    
+    //MAYUSCULA
+    var nombreArray = texto.split("");
+    var primeraLetra = nombreArray[0];
+    var mayuscula = primeraLetra.toUpperCase();
+    var espacio = false;
 
+    for(var i=1; i<nombreArray.length; i++) {
+
+        if(espacio){
+            mayuscula += nombreArray[i].toUpperCase();
+            espacio = false;
+        } else {
+            mayuscula += nombreArray[i];
+            if(nombreArray[i] == " ")
+                espacio = true;
+        }
+    }
+    
+    return mayuscula;
+}
+
+function crearSpan(elementoInput,textoInput){
+    
+    //Creando la Caja Negra
+    var cajaNegra = document.createElement("span");
+    var info = document.createTextNode(textoInput);
+    cajaNegra.appendChild(info);
+    var padre = elementoInput.parentNode;
+    padre.appendChild(cajaNegra);
+}
