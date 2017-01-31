@@ -6,18 +6,13 @@ function validateForm(){
     var password = document.getElementById("input-password");
     var tipo = document.getElementById("select");
     
-    var textoNombre = "Debe ingresar su nombre";
-    var textoApellido = "Debe ingresar su apellido";
-    var textoEmail = "Verifique su e-mail";
-    var textoPassword = "La contraseña debe tener al menos 6 caracteres";
-    var textoTipo = "Debes seleccionar al menos un tipo de bici";
     
-    if(name.value.length==0 && lastname.value.length==0 && email.value.length==0 && password.value.length==0 && tipo.value==0) {
-        mensaje("name",textoNombre);
-        mensaje("lastname",textoApellido);
-        mensaje("input-email",textoEmail);
-        mensaje("input-password",textoPassword);
-        mensaje("select",textoTipo);
+    if(name.value.length==0 || lastname.value.length==0 || email.value.length==0 || password.value.length==0 || tipo.value==0) {
+        validateName();
+        validateLastname();
+        validateEmail();
+        validatePassword();
+        validateType();
     } else {
         if(name.value.length>0 && lastname.value.length>0 && email.value.length>0 && password.value.length>0 && tipo.value!=0){
             mensajito.innerHTML = "<br><h3 style='color:green'>¡Formulario completado!</h3>";    
@@ -25,13 +20,7 @@ function validateForm(){
             mensajito.innerHTML = "";
         }
         
-    }
-    
-    /*validateName();
-    validateLastname();
-    validateEmail();
-    validatePassword();
-    validateType();*/
+    } 
 }
 
 
@@ -120,7 +109,7 @@ function validateEmail(_evt){
     if(/([a-zA-Z0-9(-_.)]+[@][a-zA-Z0-9]+[.][a-zA-Z]+)/g.test(emailX.value)){
         eliminar("input-email"); 
     } else {
-        if(emailX.value.length > 0){
+        if(emailX.value.length >= 0){
             mensaje("input-email",textoEmail);  
         }
     }
@@ -133,7 +122,7 @@ function validatePassword(_evt) {
     //Creando el texto de la Caja Negra
     var textoPassword = "La contraseña debe tener al menos 6 caracteres";
     
-    if(/([1-6])/g.test(password.value) || (/([9]+[8]+[7]+[5]+[4])/g.test(password.value)) || password.value.length < 6) {
+    if(password.value === "098754" || password.value.length <= 6 || password.value === "123456" || password.value.toLowerCase() === "password" ) {
         mensaje("input-password",textoPassword); 
         
     } else {
@@ -204,14 +193,5 @@ function eliminar(campo){
     }
     
 }
-
-//Todos los campos son obligatorios, excepto los dos últimos.
-//Los campos nombre y apellido sólo deben permitir caracteres de la A-Z
-//Para los campos nombre y apellido la primera letra debe ser mayúscula
-//Validar que el campo email tenga un formato válido. Ej: name@domain.com
-//El campo password debe tener al menos 6 caracteres
-//El campo password no puede ser igual a "password" ó "123456" ó "098754"
-//El valor seleccionado de bicis, debe ser una de las opciones presentadas
-//*NOTA: * Recomendamos que el mensaje se añada con un span ya que los estilos ya están definidos. 
 
 
