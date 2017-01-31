@@ -1,5 +1,5 @@
 function validateForm(){
-    /*var mensajito = document.getElementById("mensaje");
+    var mensajito = document.getElementById("mensaje");
     var name = document.getElementById("name");
     var lastname = document.getElementById("lastname");
     var email = document.getElementById("input-email");
@@ -25,13 +25,13 @@ function validateForm(){
             mensajito.innerHTML = "";
         }
         
-    }*/
+    }
     
-    validateName();
+    /*validateName();
     validateLastname();
     validateEmail();
     validatePassword();
-    validateType();
+    validateType();*/
 }
 
 
