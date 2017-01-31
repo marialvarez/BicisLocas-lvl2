@@ -8,21 +8,26 @@ function validateForm(){
     
     
     if(name.value.length==0 || lastname.value.length==0 || email.value.length==0 || password.value.length==0 || tipo.value==0) {
+        
         validateName();
         validateLastname();
         validateEmail();
         validatePassword();
         validateType();
-    } else {
-        if(name.value.length>0 && lastname.value.length>0 && email.value.length>0 && password.value.length>0 && tipo.value!=0){
-            mensajito.innerHTML = "<br><h3 style='color:green'>¡Formulario completado!</h3>";    
-        } else {
-            mensajito.innerHTML = "";
-        }
+        mensajito.innerHTML = "";
         
+    } else {
+        
+        if(name.value.length>0 && lastname.value.length>0 && email.value.length>0 && password.value.length>0 && tipo.value!=0){
+            
+            mensajito.innerHTML = "<br><h3 style='color:green'>¡Formulario completado!</h3>";    
+            
+        } else {
+            
+            mensajito.innerHTML = "";
+        }  
     } 
 }
-
 
 function validateName(_evt){
     
@@ -146,7 +151,6 @@ function validateType(_evt) {
           
     }   
 }
-
 
 function mensaje(campo,texto){
 
